@@ -31,16 +31,21 @@ function formatTeamData(teamData){
 }
 
 function formatPlayerData(playerData){
+    const splitName = playerData.name_last_first.split(',');
+    const firstName = splitName[1].trim();
+    const lastName = splitName[0];
+
     return {
         teamId: playerData.team_id,
         primaryPosition: playerData.primary_position,
-        name: playerData.player_first_last_html,
-        playerId: playerData.player_id
+        name: playerData.name_last_first,
+        playerId: playerData.player_id,
+        firstName, lastName
     }
 }
 
 function formatGetRequest(teamId, season){
-    return `http://lookup-service-prod.mlb.com/json/named.roster_team_alltime.bam?start_season=${season}&end_season=${season}&team_id=${teamId}&roster_team_alltime.col_in=player_id,player_first_last_html,primary_position,team_id`
+    return `http://lookup-service-prod.mlb.com/json/named.roster_team_alltime.bam?start_season=${season}&end_season=${season}&team_id=${teamId}&roster_team_alltime.col_in=player_id,primary_position,team_id,name_last_first`
 }
 
 exports.getRosterForTeam = getRosterForTeam;

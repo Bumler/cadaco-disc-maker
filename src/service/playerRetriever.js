@@ -35,18 +35,22 @@ function formatPlayerData(playerInfo, playerData){
 
     const ps = selectPlayerStatsForTeam(playerData, playerInfo.teamId);
     return {
-        homeRun: ps.hr,
-        groundOut: ps.go,
-        flyOut: ps.ao,
-        triple: ps.t,
-        single: ps.h,
-        double: ps.d,
-        atBats: ps.ab,
-        walk: ps.bb,
-        strikeout: ps.so,
+        homeRun: safeParse(ps.hr),
+        groundOut: safeParse(ps.go),
+        flyOut: safeParse(ps.ao),
+        triple: safeParse(ps.t),
+        single: safeParse(ps.h),
+        double: safeParse(ps.d),
+        atBats: safeParse(ps.ab),
+        walk: safeParse(ps.bb),
+        strikeout: safeParse(ps.so),
         average: ps.avg,
         ...playerInfo
     }; 
+}
+
+function safeParse(candidate){
+    return candidate ? parseFloat(candidate) : 0;
 }
 
 function selectPlayerStatsForTeam(playerData, teamId){
