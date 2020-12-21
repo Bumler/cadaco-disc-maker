@@ -34,7 +34,16 @@ function formatPlayerData(playerInfo, playerData){
     console.log(`Retrieved Player: ${playerInfo.name}`);
 
     const ps = selectPlayerStatsForTeam(playerData, playerInfo.teamId);
+
+    if (!ps){
+        console.log(`No player found for team ${playerInfo.teamId}, playerId: ${playerInfo.playerId}`);
+        console.log(`Here was the player data retrieved`);
+        console.log(playerData);
+        return {...playerInfo};
+    }
+
     return {
+        dataFound: true,
         homeRun: safeParse(ps.hr),
         groundOut: safeParse(ps.go),
         flyOut: safeParse(ps.ao),

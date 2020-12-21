@@ -1,18 +1,19 @@
 const axios = require('axios');
+const teamIds = require('../constants/teamIds').teamIds;
+const _ = require('lodash');
 
-async function getRosterForTeam(teamName, season){
-    const id = getTeamId(teamName);
+async function getRosterForTeam(teamAbrv, season){
+    const id = getTeamId(teamAbrv);
+    console.log(`Team id is ${id}`);
     const team = await getTeam(id, season);
     console.log(team);
     return formatTeamData(team);
 }
 
-function getTeamId(teamName){
-    if (teamName === "mets"){
-        return 121;
-    }
-
-    return 0;
+function getTeamId(teamAbrv){
+    return _.find(teamIds, function(t){
+        return t.name_abbrev.toLowerCase() === (teamAbrv.toLowerCase());
+    }).team_id;
 }
 
 //http://lookup-service-prod.mlb.com/json/named.roster_team_alltime.bam?start_season=2020&end_season=2020&team_id=121&roster_team_alltime.col_in=player_id,player_first_last_html,primary_position
